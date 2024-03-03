@@ -1,6 +1,9 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://ceyowcico1b7c"]
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://ceyowcico1b7c"]
 
 [ext_resource type="Texture2D" uid="uid://dqngtiw3e5wma" path="res://sprites/placeholder/test_tileset.png" id="1_dspem"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_11qqt"]
+friction = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qu8e3"]
 texture = ExtResource("1_dspem")
@@ -36,4 +39,5 @@ use_texture_padding = false
 
 [resource]
 physics_layer_0/collision_layer = 1
+physics_layer_0/physics_material = SubResource("PhysicsMaterial_11qqt")
 sources/1 = SubResource("TileSetAtlasSource_qu8e3")

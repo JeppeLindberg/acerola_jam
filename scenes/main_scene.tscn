@@ -1,23 +1,93 @@
-[gd_scene load_steps=4 format=3 uid="uid://lgqwhj1bp12g"]
+[gd_scene load_steps=16 format=3 uid="uid://lgqwhj1bp12g"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_bxgb6"]
+[ext_resource type="Script" path="res://scripts/main_scene.gd" id="1_cmu4u"]
 [ext_resource type="TileSet" uid="uid://ceyowcico1b7c" path="res://tilesets/tileset.tres" id="1_lk3xn"]
+[ext_resource type="Script" path="res://scripts/player_movement.gd" id="2_olbpb"]
+[ext_resource type="Script" path="res://scripts/pickup.gd" id="3_ajfjy"]
+[ext_resource type="Script" path="res://scripts/player_pickup.gd" id="4_jtlrt"]
+[ext_resource type="Script" path="res://scripts/negation.gd" id="5_da71f"]
+[ext_resource type="Script" path="res://scripts/emitter.gd" id="7_aqsct"]
+[ext_resource type="Script" path="res://scripts/relay.gd" id="8_eb7o3"]
+[ext_resource type="Script" path="res://scripts/reciever.gd" id="9_vfkf4"]
+[ext_resource type="Script" path="res://scripts/beam_network.gd" id="11_3d074"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i04xi"]
+friction = 0.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6awt0"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_rnr7c"]
+radius = 45.0444
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6wfug"]
+radius = 12.0416
+
 [node name="main_scene" type="Node2D"]
+script = ExtResource("1_cmu4u")
 
-[node name="stage" type="Node2D" parent="."]
+[node name="world" type="Node2D" parent="."]
 
-[node name="tilemap_world" type="TileMap" parent="stage"]
+[node name="stage" type="Node2D" parent="world"]
+
+[node name="tilemap_world" type="TileMap" parent="world/stage"]
 tile_set = ExtResource("1_lk3xn")
 format = 2
 layer_0/tile_data = PackedInt32Array(0, 1, 1, 1, 1, 1, 2, 1, 1, 3, 1, 1, 4, 1, 1, 5, 1, 1, 6, 1, 1, 7, 1, 1, 8, 1, 1, 9, 1, 1, 10, 1, 1, 11, 1, 1, 12, 1, 1, 13, 1, 1, 14, 1, 1, 65550, 1, 1, 131086, 1, 1, 196622, 1, 1, 262158, 1, 1, 327694, 1, 1, 393230, 1, 1, 458766, 1, 1, 524302, 1, 1, 589838, 1, 1, 655374, 1, 1, 655373, 1, 1, 655372, 1, 1, 655371, 1, 1, 655370, 1, 1, 655369, 1, 1, 655368, 1, 1, 655367, 1, 1, 655366, 1, 1, 655365, 1, 1, 655364, 1, 1, 655363, 1, 1, 655362, 1, 1, 655361, 1, 1, 655360, 1, 1, 589824, 1, 1, 524288, 1, 1, 458752, 1, 1, 393216, 1, 1, 327680, 1, 1, 262144, 1, 1, 196608, 1, 1, 131072, 1, 1, 65536, 1, 1, 65537, 65537, 0, 131073, 65537, 0, 196609, 65537, 0, 262145, 65537, 0, 327681, 1, 1, 393217, 65537, 0, 458753, 65537, 0, 524289, 65537, 0, 589825, 65537, 0, 65538, 65537, 0, 131074, 65537, 0, 196610, 65537, 0, 262146, 65537, 0, 327682, 1, 1, 393218, 65537, 0, 458754, 65537, 0, 524290, 65537, 0, 589826, 65537, 0, 65539, 65537, 0, 131075, 65537, 0, 196611, 65537, 0, 262147, 65537, 0, 327683, 1, 1, 393219, 65537, 0, 458755, 65537, 0, 524291, 65537, 0, 589827, 65537, 0, 65540, 65537, 0, 131076, 65537, 0, 196612, 65537, 0, 262148, 65537, 0, 327684, 1, 1, 393220, 65537, 0, 458756, 65537, 0, 524292, 65537, 0, 589828, 65537, 0, 65541, 65537, 0, 131077, 65537, 0, 196613, 65537, 0, 262149, 65537, 0, 327685, 1, 1, 393221, 65537, 0, 458757, 65537, 0, 524293, 65537, 0, 589829, 65537, 0, 65542, 65537, 0, 131078, 65537, 0, 196614, 65537, 0, 262150, 65537, 0, 327686, 1, 1, 393222, 65537, 0, 458758, 65537, 0, 524294, 65537, 0, 589830, 65537, 0, 65543, 65537, 0, 131079, 65537, 0, 196615, 65537, 0, 262151, 65537, 0, 327687, 1, 1, 393223, 65537, 0, 458759, 65537, 0, 524295, 65537, 0, 589831, 65537, 0, 65544, 65537, 0, 131080, 65537, 0, 196616, 65537, 0, 262152, 65537, 0, 327688, 65537, 0, 393224, 65537, 0, 458760, 65537, 0, 524296, 65537, 0, 589832, 65537, 0, 65545, 65537, 0, 131081, 65537, 0, 196617, 65537, 0, 262153, 65537, 0, 327689, 65537, 0, 393225, 65537, 0, 458761, 65537, 0, 524297, 65537, 0, 589833, 65537, 0, 65546, 65537, 0, 131082, 65537, 0, 196618, 65537, 0, 262154, 65537, 0, 327690, 65537, 0, 393226, 65537, 0, 458762, 65537, 0, 524298, 65537, 0, 589834, 65537, 0, 65547, 65537, 0, 131083, 65537, 0, 196619, 65537, 0, 262155, 65537, 0, 327691, 65537, 0, 393227, 65537, 0, 458763, 65537, 0, 524299, 65537, 0, 589835, 65537, 0, 65548, 65537, 0, 131084, 65537, 0, 196620, 65537, 0, 262156, 65537, 0, 327692, 65537, 0, 393228, 65537, 0, 458764, 65537, 0, 524300, 65537, 0, 589836, 65537, 0, 65549, 65537, 0, 131085, 65537, 0, 196621, 65537, 0, 262157, 65537, 0, 327693, 65537, 0, 393229, 65537, 0, 458765, 65537, 0, 524301, 65537, 0, 589837, 65537, 0)
 
-[node name="player" type="RigidBody2D" parent="."]
+[node name="player" type="RigidBody2D" parent="world"]
 position = Vector2(54, 124)
+physics_material_override = SubResource("PhysicsMaterial_i04xi")
 gravity_scale = 0.0
 script = ExtResource("1_bxgb6")
 
-[node name="collider" type="CollisionShape2D" parent="player"]
+[node name="collider" type="CollisionShape2D" parent="world/player"]
 shape = SubResource("CircleShape2D_6awt0")
+
+[node name="player_movement" type="Node2D" parent="world/player"]
+script = ExtResource("2_olbpb")
+
+[node name="player_pickup" type="Node2D" parent="world/player"]
+script = ExtResource("4_jtlrt")
+
+[node name="abnormality_drive" type="Node2D" parent="world"]
+position = Vector2(171, 86)
+
+[node name="negation" type="Area2D" parent="world/abnormality_drive"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("5_da71f")
+
+[node name="collider" type="CollisionShape2D" parent="world/abnormality_drive/negation"]
+shape = SubResource("CircleShape2D_rnr7c")
+debug_color = Color(0.992157, 0, 0.278431, 0.419608)
+
+[node name="pickup" type="Area2D" parent="world/abnormality_drive"]
+script = ExtResource("3_ajfjy")
+
+[node name="collider" type="CollisionShape2D" parent="world/abnormality_drive/pickup"]
+shape = SubResource("CircleShape2D_6wfug")
+debug_color = Color(0, 0.65098, 0.0509804, 0.419608)
+
+[node name="emitter" type="Node2D" parent="world"]
+position = Vector2(146, 150)
+script = ExtResource("7_aqsct")
+
+[node name="relay" type="Node2D" parent="world/emitter" node_paths=PackedStringArray("connected_relays")]
+script = ExtResource("8_eb7o3")
+connected_relays = [NodePath("../../reciever/relay")]
+
+[node name="reciever" type="Node2D" parent="world"]
+position = Vector2(141, 31)
+script = ExtResource("9_vfkf4")
+
+[node name="relay" type="Node2D" parent="world/reciever" node_paths=PackedStringArray("connected_relays")]
+script = ExtResource("8_eb7o3")
+connected_relays = [NodePath("../../emitter/relay")]
+
+[node name="beam_network" type="Node2D" parent="world"]
+script = ExtResource("11_3d074")
+negation_collision_layer = 2
+
+[connection signal="body_entered" from="world/abnormality_drive/pickup" to="world/abnormality_drive/pickup" method="_on_body_entered"]
+[connection signal="body_exited" from="world/abnormality_drive/pickup" to="world/abnormality_drive/pickup" method="_on_body_exited"]
