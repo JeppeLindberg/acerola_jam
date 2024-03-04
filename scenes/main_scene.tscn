@@ -1,16 +1,19 @@
-[gd_scene load_steps=16 format=3 uid="uid://lgqwhj1bp12g"]
+[gd_scene load_steps=19 format=3 uid="uid://lgqwhj1bp12g"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_bxgb6"]
 [ext_resource type="Script" path="res://scripts/main_scene.gd" id="1_cmu4u"]
 [ext_resource type="TileSet" uid="uid://ceyowcico1b7c" path="res://tilesets/tileset.tres" id="1_lk3xn"]
+[ext_resource type="Script" path="res://scripts/debug.gd" id="2_cg5vf"]
 [ext_resource type="Script" path="res://scripts/player_movement.gd" id="2_olbpb"]
 [ext_resource type="Script" path="res://scripts/pickup.gd" id="3_ajfjy"]
 [ext_resource type="Script" path="res://scripts/player_pickup.gd" id="4_jtlrt"]
 [ext_resource type="Script" path="res://scripts/negation.gd" id="5_da71f"]
 [ext_resource type="Script" path="res://scripts/emitter.gd" id="7_aqsct"]
 [ext_resource type="Script" path="res://scripts/relay.gd" id="8_eb7o3"]
+[ext_resource type="Script" path="res://scripts/transmitter.gd" id="9_ggosd"]
 [ext_resource type="Script" path="res://scripts/reciever.gd" id="9_vfkf4"]
 [ext_resource type="Script" path="res://scripts/beam_network.gd" id="11_3d074"]
+[ext_resource type="PackedScene" uid="uid://bpi1bf51iervo" path="res://prefabs/clickable.tscn" id="11_oyv5b"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i04xi"]
 friction = 0.0
@@ -25,6 +28,21 @@ radius = 12.0416
 
 [node name="main_scene" type="Node2D"]
 script = ExtResource("1_cmu4u")
+
+[node name="debug" type="Control" parent="."]
+z_index = 100
+layout_mode = 3
+anchors_preset = 0
+offset_right = 244.0
+offset_bottom = 175.0
+mouse_filter = 2
+script = ExtResource("2_cg5vf")
+debug_label_path = "res://prefabs/debug/debug_label.tscn"
+
+[node name="labels" type="VBoxContainer" parent="debug"]
+layout_mode = 0
+offset_right = 245.0
+offset_bottom = 169.0
 
 [node name="world" type="Node2D" parent="."]
 
@@ -54,8 +72,8 @@ script = ExtResource("4_jtlrt")
 position = Vector2(171, 86)
 
 [node name="negation" type="Area2D" parent="world/abnormality_drive"]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 4
+collision_mask = 4
 script = ExtResource("5_da71f")
 
 [node name="collider" type="CollisionShape2D" parent="world/abnormality_drive/negation"]
@@ -69,6 +87,21 @@ script = ExtResource("3_ajfjy")
 shape = SubResource("CircleShape2D_6wfug")
 debug_color = Color(0, 0.65098, 0.0509804, 0.419608)
 
+[node name="transmitter" type="Node2D" parent="world"]
+position = Vector2(128, 39)
+script = ExtResource("9_ggosd")
+
+[node name="relay" type="Node2D" parent="world/transmitter" node_paths=PackedStringArray("connected_relays")]
+script = ExtResource("8_eb7o3")
+connected_relays = [NodePath("../../reciever/relay")]
+
+[node name="pickup" type="Area2D" parent="world/transmitter"]
+script = ExtResource("3_ajfjy")
+
+[node name="collider" type="CollisionShape2D" parent="world/transmitter/pickup"]
+shape = SubResource("CircleShape2D_6wfug")
+debug_color = Color(0, 0.65098, 0.0509804, 0.419608)
+
 [node name="emitter" type="Node2D" parent="world"]
 position = Vector2(146, 150)
 script = ExtResource("7_aqsct")
@@ -77,17 +110,25 @@ script = ExtResource("7_aqsct")
 script = ExtResource("8_eb7o3")
 connected_relays = [NodePath("../../reciever/relay")]
 
+[node name="clickable" parent="world/emitter" instance=ExtResource("11_oyv5b")]
+
 [node name="reciever" type="Node2D" parent="world"]
-position = Vector2(141, 31)
+position = Vector2(75, 31)
 script = ExtResource("9_vfkf4")
 
 [node name="relay" type="Node2D" parent="world/reciever" node_paths=PackedStringArray("connected_relays")]
 script = ExtResource("8_eb7o3")
 connected_relays = [NodePath("../../emitter/relay")]
 
+[node name="clickable" parent="world/reciever" instance=ExtResource("11_oyv5b")]
+
 [node name="beam_network" type="Node2D" parent="world"]
 script = ExtResource("11_3d074")
-negation_collision_layer = 2
+negation_collision_layer = 4
+occusion_collision_layer = 2
+beam_path = "res://prefabs/beam.tscn"
 
 [connection signal="body_entered" from="world/abnormality_drive/pickup" to="world/abnormality_drive/pickup" method="_on_body_entered"]
 [connection signal="body_exited" from="world/abnormality_drive/pickup" to="world/abnormality_drive/pickup" method="_on_body_exited"]
+[connection signal="body_entered" from="world/transmitter/pickup" to="world/transmitter/pickup" method="_on_body_entered"]
+[connection signal="body_exited" from="world/transmitter/pickup" to="world/transmitter/pickup" method="_on_body_exited"]

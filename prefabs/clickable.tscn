@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpi1bf51iervo"]
+
+[ext_resource type="Script" path="res://scripts/clickable.gd" id="1_eim8k"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mjt2k"]
+radius = 15.0
+
+[node name="clickable" type="Area2D"]
+script = ExtResource("1_eim8k")
+
+[node name="collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mjt2k")
+debug_color = Color(0.662745, 0.513726, 0.0509804, 0.419608)
