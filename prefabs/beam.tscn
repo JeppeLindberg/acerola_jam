@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://rabvtlat8d52"]
 
-[ext_resource type="Script" path="res://scripts/beam.gd" id="1_iu6yx"]
+[ext_resource type="Script" path="res://scripts/beam/beam.gd" id="1_c7ruq"]
 
 [node name="beam" type="Node2D"]
-script = ExtResource("1_iu6yx")
+script = ExtResource("1_c7ruq")
 blue_color = Color(0.431373, 0.65098, 0.862745, 1)
 red_color = Color(0.768627, 0.192157, 0.247059, 1)
 none_color = Color(0.478431, 0.478431, 0.478431, 0.462745)

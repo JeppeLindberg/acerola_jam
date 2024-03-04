@@ -8,12 +8,12 @@
 [ext_resource type="Script" path="res://scripts/pickup.gd" id="3_ajfjy"]
 [ext_resource type="Script" path="res://scripts/player_pickup.gd" id="4_jtlrt"]
 [ext_resource type="Script" path="res://scripts/negation.gd" id="5_da71f"]
-[ext_resource type="Script" path="res://scripts/emitter.gd" id="7_aqsct"]
-[ext_resource type="Script" path="res://scripts/relay.gd" id="8_eb7o3"]
-[ext_resource type="Script" path="res://scripts/transmitter.gd" id="9_ggosd"]
-[ext_resource type="Script" path="res://scripts/reciever.gd" id="9_vfkf4"]
-[ext_resource type="Script" path="res://scripts/beam_network.gd" id="11_3d074"]
+[ext_resource type="Script" path="res://scripts/beam/transmitter.gd" id="9_mgxc5"]
+[ext_resource type="Script" path="res://scripts/beam/relay.gd" id="10_1r1dd"]
+[ext_resource type="Script" path="res://scripts/beam/emitter.gd" id="11_dgh7e"]
 [ext_resource type="PackedScene" uid="uid://bpi1bf51iervo" path="res://prefabs/clickable.tscn" id="11_oyv5b"]
+[ext_resource type="Script" path="res://scripts/beam/reciever.gd" id="13_tprq2"]
+[ext_resource type="Script" path="res://scripts/beam/beam_network.gd" id="14_5p5vl"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i04xi"]
 friction = 0.0
@@ -89,10 +89,10 @@ debug_color = Color(0, 0.65098, 0.0509804, 0.419608)
 
 [node name="transmitter" type="Node2D" parent="world"]
 position = Vector2(128, 39)
-script = ExtResource("9_ggosd")
+script = ExtResource("9_mgxc5")
 
 [node name="relay" type="Node2D" parent="world/transmitter" node_paths=PackedStringArray("connected_relays")]
-script = ExtResource("8_eb7o3")
+script = ExtResource("10_1r1dd")
 connected_relays = [NodePath("../../reciever/relay")]
 
 [node name="pickup" type="Area2D" parent="world/transmitter"]
@@ -104,26 +104,26 @@ debug_color = Color(0, 0.65098, 0.0509804, 0.419608)
 
 [node name="emitter" type="Node2D" parent="world"]
 position = Vector2(146, 150)
-script = ExtResource("7_aqsct")
+script = ExtResource("11_dgh7e")
 
 [node name="relay" type="Node2D" parent="world/emitter" node_paths=PackedStringArray("connected_relays")]
-script = ExtResource("8_eb7o3")
+script = ExtResource("10_1r1dd")
 connected_relays = [NodePath("../../reciever/relay")]
 
 [node name="clickable" parent="world/emitter" instance=ExtResource("11_oyv5b")]
 
 [node name="reciever" type="Node2D" parent="world"]
 position = Vector2(75, 31)
-script = ExtResource("9_vfkf4")
+script = ExtResource("13_tprq2")
 
 [node name="relay" type="Node2D" parent="world/reciever" node_paths=PackedStringArray("connected_relays")]
-script = ExtResource("8_eb7o3")
+script = ExtResource("10_1r1dd")
 connected_relays = [NodePath("../../emitter/relay")]
 
 [node name="clickable" parent="world/reciever" instance=ExtResource("11_oyv5b")]
 
 [node name="beam_network" type="Node2D" parent="world"]
-script = ExtResource("11_3d074")
+script = ExtResource("14_5p5vl")
 negation_collision_layer = 4
 occusion_collision_layer = 2
 beam_path = "res://prefabs/beam.tscn"
